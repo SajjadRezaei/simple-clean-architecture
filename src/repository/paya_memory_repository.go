@@ -8,14 +8,14 @@ import (
 	"sync"
 )
 
-type InMemoryShebaRepository struct {
+type InMemoryPayaRepository struct {
 	requests     []entity.Paya
 	mu           sync.RWMutex
 	userBalances map[string]int64
 }
 
-func NewInMemoryPayaRepository() *InMemoryShebaRepository {
-	return &InMemoryShebaRepository{
+func NewInMemoryPayaRepository() *InMemoryPayaRepository {
+	return &InMemoryPayaRepository{
 		requests: make([]entity.Paya, 0),
 		userBalances: map[string]int64{
 			"IR123456789012345678901234": 50000000000000,
@@ -23,7 +23,7 @@ func NewInMemoryPayaRepository() *InMemoryShebaRepository {
 	}
 }
 
-func (r *InMemoryShebaRepository) Save(req *entity.Paya) error {
+func (r *InMemoryPayaRepository) Save(req *entity.Paya) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
@@ -32,7 +32,7 @@ func (r *InMemoryShebaRepository) Save(req *entity.Paya) error {
 	return nil
 }
 
-func (r *InMemoryShebaRepository) GetByID(id string) (*entity.Paya, error) {
+func (r *InMemoryPayaRepository) GetByID(id string) (*entity.Paya, error) {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 
@@ -45,7 +45,7 @@ func (r *InMemoryShebaRepository) GetByID(id string) (*entity.Paya, error) {
 	return &r.requests[idx], nil
 }
 
-func (r *InMemoryShebaRepository) Update(req *entity.Paya) error {
+func (r *InMemoryPayaRepository) Update(req *entity.Paya) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
@@ -59,7 +59,7 @@ func (r *InMemoryShebaRepository) Update(req *entity.Paya) error {
 	return nil
 }
 
-func (r *InMemoryShebaRepository) GetAll() []entity.Paya {
+func (r *InMemoryPayaRepository) GetAll() []entity.Paya {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 
@@ -70,7 +70,7 @@ func (r *InMemoryShebaRepository) GetAll() []entity.Paya {
 	return r.requests
 }
 
-func (r *InMemoryShebaRepository) GetBalance(sheba string) (int64, error) {
+func (r *InMemoryPayaRepository) GetBalance(sheba string) (int64, error) {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 
@@ -82,7 +82,7 @@ func (r *InMemoryShebaRepository) GetBalance(sheba string) (int64, error) {
 	return balance, nil
 }
 
-func (r *InMemoryShebaRepository) DeductBalance(sheba string, amount int64) error {
+func (r *InMemoryPayaRepository) DeductBalance(sheba string, amount int64) error {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 
@@ -99,7 +99,7 @@ func (r *InMemoryShebaRepository) DeductBalance(sheba string, amount int64) erro
 
 }
 
-func (r *InMemoryShebaRepository) IncrementBalance(sheba string, amount int64) error {
+func (r *InMemoryPayaRepository) IncrementBalance(sheba string, amount int64) error {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 
